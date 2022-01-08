@@ -41,7 +41,7 @@ public class PlayerCamera : MonoBehaviour
         // Set camera orthographic size
         float absWidth = Math.Abs(maxLeft - maxRight);
         float absHeight = Math.Abs(maxTop - maxBottom);
-        cam.orthographicSize = absWidth > absHeight ? (absWidth / 5) + 0.5f : (absHeight / 5) + 0.5f;
+        cam.orthographicSize = absWidth > absHeight ? (absWidth / 2.5f) + 0.5f : (absHeight / 2.5f) + 0.5f;
     }
 
     private Vector4 CalculateCameraPos() {
