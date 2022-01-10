@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hidden_NewImageEffectShader
+  m_Name: FogMaterial
   m_Shader: {fileID: 4800000, guid: ac1891a9c5d921548b1ed596f2bd3e83, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4

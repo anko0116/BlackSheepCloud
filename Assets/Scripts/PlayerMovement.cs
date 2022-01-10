@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour {
         mask = LayerMask.GetMask("Ground");
     }
 
-    // Update is called once per frame
     void Update() {
         /* If movement is only possible when player is grounded, then no way to contrl while mid-air.
         If movement is possible when NOT grounded, then player can shove itself to a wall
