@@ -59,8 +59,10 @@ public class CalculatePixels : MonoBehaviour
         time -= Time.deltaTime;
         timerText.text = time.ToString("0");
         // Reset timer when it hits 0
-        if (time <= 0f) {
-            time = prevTime + (((pixelCount - prevPixelCount) / 100f) - 0f);
+        if (time <= -0.49f) {
+            time = prevTime + (((pixelCount - prevPixelCount) / 25f) - 0f);
+            prevTime = time;
+            print(prevPixelCount + " " + pixelCount);
             prevPixelCount = pixelCount;
             // Reset character to origin of the map
             playerTransf.position = new Vector3(-1.0f, 3.35f, 0f);
@@ -93,5 +95,5 @@ public class CalculatePixels : MonoBehaviour
 
 // 1. Map zoom out (gets cut off at the bottom)
 // 2. Fog not centered on character (gets shifted)
-// 3. blaccck background
-// 4. timer (time in seconds = m * pixels + constant)
+// 3. new art assets = character, blaccck background
+// 4. easier movement/control

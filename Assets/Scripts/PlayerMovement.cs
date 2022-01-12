@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// https://docs.unity3d.com/ScriptReference/Rigidbody-velocity.html
+
 public class PlayerMovement : MonoBehaviour {
     private Rigidbody2D body;
     private BoxCollider2D coll;
@@ -9,12 +11,16 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private float jumpSpeed;
     private LayerMask mask;
 
+    private bool jumping;
+
     void Start() {
         body = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
-        speed = 2;
-        jumpSpeed = 3;
+        speed = 1.2f;
+        jumpSpeed = 6f;
         mask = LayerMask.GetMask("Ground");
+
+        jumping = false;
     }
 
     void Update() {
@@ -23,14 +29,22 @@ public class PlayerMovement : MonoBehaviour {
         */
         if (_IsGrounded()) {
             if (Input.GetKey(KeyCode.Space)) {
-                body.velocity = new Vector2(body.velocity.x, jumpSpeed);
+                jumping = true;
             }
+            else {
+                jumping = false;
+            }
+        }
+        else {
+            jumping = false;
         }
     }
 
     void FixedUpdate() {
         // Not grounded and not moving?
         body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.velocity.y);
+        // if (jumping) body.velocity = new Vector2(body.velocity.x, jumpSpeed);
+        if (jumping) body.AddForce(new Vector2(0, jumpSpeed), ForceMode2D.Impulse);
     }
 
     private bool _IsGrounded() {
