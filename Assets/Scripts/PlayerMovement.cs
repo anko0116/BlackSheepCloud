@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour {
         body = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
         speed = 1.2f;
-        jumpSpeed = 6f;
+        jumpSpeed = 3.6f;
         mask = LayerMask.GetMask("Ground");
 
         jumping = false;
@@ -27,13 +27,8 @@ public class PlayerMovement : MonoBehaviour {
         /* If movement is only possible when player is grounded, then no way to contrl while mid-air.
         If movement is possible when NOT grounded, then player can shove itself to a wall
         */
-        if (_IsGrounded()) {
-            if (Input.GetKey(KeyCode.Space)) {
-                jumping = true;
-            }
-            else {
-                jumping = false;
-            }
+        if (_IsGrounded() && Input.GetKey(KeyCode.Space)) {
+            jumping = true;
         }
         else {
             jumping = false;
@@ -41,10 +36,13 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        // Not grounded and not moving?
         body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.velocity.y);
-        // if (jumping) body.velocity = new Vector2(body.velocity.x, jumpSpeed);
-        if (jumping) body.AddForce(new Vector2(0, jumpSpeed), ForceMode2D.Impulse);
+        if (jumping) body.velocity = new Vector2(body.velocity.x, jumpSpeed);
+        // Code below seems to add force at wrong times due to race conditions
+        // if (jumping) {
+        //     jumping = false;
+        //     body.AddForce(new Vector2(body.velocity.x, jumpSpeed), ForceMode2D.Impulse);
+        // }
     }
 
     private bool _IsGrounded() {
@@ -71,3 +69,9 @@ public class PlayerMovement : MonoBehaviour {
     //     }
     // }
 }
+
+// 1. Map zoom out (gets cut off at the bottom) - FIXED
+// 2. character size (try to make it bigger) - FIXED
+// 3. easier movement/control - FIXED
+// 4. Doubling jumping from colliding with 2 map colliders (because jump is too fast)
+// 5. probably increase fogclearer (change to be circle)

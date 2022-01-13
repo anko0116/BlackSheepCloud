@@ -92,8 +92,3 @@ public class CalculatePixels : MonoBehaviour
         playerBody.enabled = true;
     }
 }
-
-// 1. Map zoom out (gets cut off at the bottom)
-// 2. Fog not centered on character (gets shifted)
-// 3. new art assets = character, blaccck background
-// 4. easier movement/control
