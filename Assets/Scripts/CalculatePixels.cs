@@ -60,6 +60,7 @@ public class CalculatePixels : MonoBehaviour
         }
         pixelCount = currPixels;
         pixelText.text = pixelCount.ToString() + " Pixels";
+        UnityEngine.Object.Destroy(texture2d);
 
         // Countdown time
         time -= Time.deltaTime;
