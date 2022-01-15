@@ -19,6 +19,9 @@ public class CalculatePixels : MonoBehaviour
     private Transform playerTransf;
     private PlayerMovement playerBody;
 
+    public float multiplier = 25f;
+    public float constant = 0f;
+
     void Start()
     {
         fog = GetComponent<RawImage>();
@@ -60,7 +63,7 @@ public class CalculatePixels : MonoBehaviour
         timerText.text = time.ToString("0");
         // Reset timer when it hits 0
         if (time <= -0.49f) {
-            time = prevTime + (((pixelCount - prevPixelCount) / 25f) - 0f);
+            time = prevTime + (((pixelCount - prevPixelCount) / multiplier) - constant);
             prevTime = time;
             print(prevPixelCount + " " + pixelCount);
             prevPixelCount = pixelCount;
