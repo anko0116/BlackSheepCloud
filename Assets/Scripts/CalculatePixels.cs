@@ -17,7 +17,8 @@ public class CalculatePixels : MonoBehaviour
     private Text timerText;
 
     private Transform playerTransf;
-    private PlayerMovement playerBody;
+    private PlayerMovement playerMoveScript;
+    private Rigidbody2D playerBody;
 
     public float multiplier = 25f;
     public float constant = 0f;
@@ -36,8 +37,10 @@ public class CalculatePixels : MonoBehaviour
         pixelText = GameObject.Find("PixelText").GetComponent<Text>();
         timerText = GameObject.Find("TimerText").GetComponent<Text>();
 
-        playerTransf = GameObject.Find("player2").GetComponent<Transform>();
-        playerBody = GameObject.Find("player2").GetComponent<PlayerMovement>();
+        GameObject player = GameObject.Find("player2"); 
+        playerTransf = player.GetComponent<Transform>();
+        playerMoveScript = player.GetComponent<PlayerMovement>();
+        playerBody = player.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -56,16 +59,15 @@ public class CalculatePixels : MonoBehaviour
             }
         }
         pixelCount = currPixels;
-        pixelText.text = pixelCount.ToString();
+        pixelText.text = pixelCount.ToString() + " Pixels";
 
         // Countdown time
         time -= Time.deltaTime;
-        timerText.text = time.ToString("0");
+        timerText.text = time.ToString("0") + " Seconds";
         // Reset timer when it hits 0
         if (time <= -0.49f) {
             time = prevTime + (((pixelCount - prevPixelCount) / multiplier) - constant);
             prevTime = time;
-            print(prevPixelCount + " " + pixelCount);
             prevPixelCount = pixelCount;
             // Reset character to origin of the map
             playerTransf.position = new Vector3(-1.0f, 3.35f, 0f);
@@ -90,8 +92,9 @@ public class CalculatePixels : MonoBehaviour
     }
 
     IEnumerator TimeDelay() {
-        playerBody.enabled = false;
+        playerMoveScript.enabled = false;
+        playerBody.velocity = Vector3.zero;
         yield return new WaitForSeconds(1f);
-        playerBody.enabled = true;
+        playerMoveScript.enabled = true;
     }
 }

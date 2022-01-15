@@ -70,8 +70,7 @@ public class PlayerMovement : MonoBehaviour {
     // }
 }
 
-// 1. Map zoom out (gets cut off at the bottom) - FIXED
-// 2. character size (try to make it bigger) - FIXED
-// 3. easier movement/control - FIXED
-// 4. Doubling jumping from colliding with 2 map colliders (because jump is too fast)
-// 5. probably increase fogclearer (change to be circle)
+// 1. Stop physics engine when time resets
+// 2. Doublecheck collisions on the map
+// 3. memory leak
+// 4. torch opacity
