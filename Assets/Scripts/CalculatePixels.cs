@@ -23,6 +23,10 @@ public class CalculatePixels : MonoBehaviour
     public float multiplier = 25f;
     public float constant = 0f;
 
+    public Vector3 origin = new Vector3(0f, 0f, 0f);
+
+    private float timer;
+
     void Start()
     {
         fog = GetComponent<RawImage>();
@@ -37,17 +41,27 @@ public class CalculatePixels : MonoBehaviour
         pixelText = GameObject.Find("PixelText").GetComponent<Text>();
         timerText = GameObject.Find("TimerText").GetComponent<Text>();
 
-        GameObject player = GameObject.Find("player2"); 
+        GameObject player = GameObject.Find("Player"); 
         playerTransf = player.GetComponent<Transform>();
         playerMoveScript = player.GetComponent<PlayerMovement>();
         playerBody = player.GetComponent<Rigidbody2D>();
+
+        origin = playerTransf.position;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+        // Spawn back in origin
+        if (Input.GetKeyDown(KeyCode.R)) {
+            timer = Time.time;
+        }
+        else if (Input.GetKey(KeyCode.R)) {
+            if (Time.time - timer > 1f) {
+                playerTransf.position = origin;
+                StartCoroutine(TimeDelay());
+            }
+        }
     }
+
     void LateUpdate() {
         // Count uncovered pixels in the map
         texture2d = TextureToTexture2D(fog.mainTexture);
@@ -71,13 +85,14 @@ public class CalculatePixels : MonoBehaviour
             prevTime = time;
             prevPixelCount = pixelCount;
             // Reset character to origin of the map
-            playerTransf.position = new Vector3(-1.0f, 3.35f, 0f);
+            playerTransf.position = origin;
             StartCoroutine(TimeDelay());
         }
     }
 
     private Texture2D TextureToTexture2D(Texture texture)
     {
+        // Convert RenderTexture to Texture2D
         Texture2D texture2D = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
         RenderTexture currentRT = RenderTexture.active;
         RenderTexture renderTexture = RenderTexture.GetTemporary(texture.width, texture.height, 32);

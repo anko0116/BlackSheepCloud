@@ -12,15 +12,17 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float maxRight;
     [SerializeField] private float maxTop;
     [SerializeField] private float maxBottom;
+    private float zoomRatio;
     private Camera cam;
     void Start()
     {
-        player = GameObject.Find("player2").transform;
+        player = GameObject.Find("Player").transform;
         maxLeft = player.position.x;
         maxRight = player.position.x;
         maxTop = player.position.y;
         maxBottom = player.position.y;
 
+        zoomRatio = 2.0f;
         cam = GetComponent<Camera>();
     }
 
@@ -41,7 +43,7 @@ public class PlayerCamera : MonoBehaviour
         // Set camera orthographic size
         float absWidth = Math.Abs(maxLeft - maxRight);
         float absHeight = Math.Abs(maxTop - maxBottom);
-        cam.orthographicSize = absWidth > absHeight ? (absWidth / 2f) + 0.5f : (absHeight / 2f) + 0.5f;
+        cam.orthographicSize = absWidth > absHeight ? (absWidth / zoomRatio) + 0.3f : (absHeight / zoomRatio) + 0.3f;
     }
 
     private Vector4 CalculateCameraPos() {

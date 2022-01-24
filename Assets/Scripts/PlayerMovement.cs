@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour {
     private Rigidbody2D body;
     private BoxCollider2D coll;
     [SerializeField] private float speed;
-    [SerializeField] private float jumpSpeed;
+    public float jumpSpeed;
     private LayerMask mask;
 
     private bool jumping;
@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour {
         body = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
         speed = 1.2f;
-        jumpSpeed = 3.6f;
+        // jumpSpeed = 3.6f; // 3.6
         mask = LayerMask.GetMask("Ground");
 
         jumping = false;
@@ -36,17 +36,15 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void FixedUpdate() {
+        // Walking 
         body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.velocity.y);
+        // Jumping
         if (jumping) body.velocity = new Vector2(body.velocity.x, jumpSpeed);
-        // Code below seems to add force at wrong times due to race conditions
-        // if (jumping) {
-        //     jumping = false;
-        //     body.AddForce(new Vector2(body.velocity.x, jumpSpeed), ForceMode2D.Impulse);
-        // }
+        // if (jumping) body.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
     }
 
     private bool _IsGrounded() {
-        float extraHeight = 0.04f;
+        float extraHeight = 0.02f;
         RaycastHit2D hit = Physics2D.Raycast(coll.bounds.center, Vector2.down, coll.bounds.extents.y + extraHeight, mask);
 
         Color rayColor = Color.red;
@@ -70,7 +68,7 @@ public class PlayerMovement : MonoBehaviour {
     // }
 }
 
-// 1. Stop physics engine when time resets
+// 1. Stop physics engine when time resets FIXED
 // 2. Doublecheck collisions on the map
-// 3. memory leak
-// 4. torch opacity
+// 3. memory leak FIXED
+// 4. torch opacity FIXED
