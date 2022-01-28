@@ -23,9 +23,11 @@ public class CalculatePixels : MonoBehaviour
     public float multiplier = 25f;
     public float constant = 0f;
 
-    public Vector3 origin = new Vector3(0f, 0f, 0f);
+    public Vector3 origin;
 
     private float timer;
+
+    public bool disableTimer = false;
 
     void Start()
     {
@@ -50,7 +52,7 @@ public class CalculatePixels : MonoBehaviour
     }
 
     void Update() {
-        // Spawn back in origin
+        // Spawn back in origin by holding 'R' button
         if (Input.GetKeyDown(KeyCode.R)) {
             timer = Time.time;
         }
@@ -77,16 +79,18 @@ public class CalculatePixels : MonoBehaviour
         UnityEngine.Object.Destroy(texture2d);
 
         // Countdown time
-        time -= Time.deltaTime;
-        timerText.text = time.ToString("0") + " Seconds";
-        // Reset timer when it hits 0
-        if (time <= -0.49f) {
-            time = prevTime + (((pixelCount - prevPixelCount) / multiplier) - constant);
-            prevTime = time;
-            prevPixelCount = pixelCount;
-            // Reset character to origin of the map
-            playerTransf.position = origin;
-            StartCoroutine(TimeDelay());
+        if (!disableTimer) {
+            time -= Time.deltaTime;
+            timerText.text = time.ToString("0") + " Seconds";
+            // Reset timer when it hits 0
+            if (time <= -0.49f) {
+                time = prevTime + (((pixelCount - prevPixelCount) / multiplier) - constant);
+                prevTime = time;
+                prevPixelCount = pixelCount;
+                // Reset character to origin of the map
+                playerTransf.position = origin;
+                StartCoroutine(TimeDelay());
+            }
         }
     }
 

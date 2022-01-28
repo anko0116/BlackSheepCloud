@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void Update() {
-        if (_NewIsGrounded() && Input.GetKey(KeyCode.Space)) {
+        if (_IsGrounded() && Input.GetKey(KeyCode.Space) && body.velocity.y == 0) {
             jumping = true;
         }
         else {
@@ -46,24 +46,22 @@ public class PlayerMovement : MonoBehaviour {
             // if jumping up
             body.velocity += Vector2.up * Physics2D.gravity.y * (0.4f - 1) * Time.deltaTime;   
         }
-        // if (jumping) body.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
     }
 
     private bool _IsGrounded() {
         float extraHeight = 0.02f;
-        RaycastHit2D hit = Physics2D.Raycast(coll.bounds.center, Vector2.down, coll.bounds.extents.y + extraHeight, mask);
+        Vector2 hit1Origin = coll.bounds.center;
+        Vector2 hit2Origin = new Vector2(hit1Origin.x + 0.023f, hit1Origin.y - 0.01f);
+        Vector2 hit3Origin = new Vector2(hit1Origin.x - 0.023f, hit1Origin.y - 0.01f);
+        RaycastHit2D hit1 = Physics2D.Raycast(hit1Origin, Vector2.down, coll.bounds.extents.y + extraHeight, mask);
+        RaycastHit2D hit2 = Physics2D.Raycast(hit2Origin, Vector2.down, coll.bounds.extents.y + extraHeight, mask);
+        RaycastHit2D hit3 = Physics2D.Raycast(hit3Origin, Vector2.down, coll.bounds.extents.y + extraHeight, mask);
 
-        Color rayColor = Color.red;
-        if (hit.collider != null) {
-            rayColor = Color.green;
-        }
         Debug.DrawRay(coll.bounds.center, Vector2.down * (coll.bounds.extents.y + extraHeight));
+        Debug.DrawRay(hit2Origin, Vector2.down * (coll.bounds.extents.y + extraHeight));
+        Debug.DrawRay(hit3Origin, Vector2.down * (coll.bounds.extents.y + extraHeight));
 
-        return hit.collider != null;
-    }
-
-    private bool _NewIsGrounded() {
-        return (body.velocity.y == 0 ? true : false);
+        return (hit1.collider != null || hit2.collider != null || hit3.collider != null);
     }
 }
 
