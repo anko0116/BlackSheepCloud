@@ -10,7 +10,6 @@ public class HubWorld : MonoBehaviour
     public static bool activateHub = false;
     void Start()
     {
-        print("START");
         Scene currScene = SceneManager.GetActiveScene();
         int sceneIndex = currScene.buildIndex;
         if (sceneIndex != 0) {
@@ -24,6 +23,5 @@ public class HubWorld : MonoBehaviour
 
     void Update()
     {
-        print(activateHub);
     }
 }
