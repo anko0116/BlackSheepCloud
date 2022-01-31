@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7610570319845679655}
   - component: {fileID: 7610570319845679654}
-  m_Layer: 11
+  m_Layer: 12
   m_Name: Fog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,10 +288,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1.23
+  m_Mass: 1
   m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 0.6
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 0
@@ -310,7 +310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  jumpSpeed: 2
+  jumpSpeed: 2.5
 --- !u!114 &6580094729223360090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,7 +333,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7610570320622750749}
   - component: {fileID: 7610570320622750748}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: FogClearer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

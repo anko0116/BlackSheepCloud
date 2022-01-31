@@ -188,6 +188,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Exit
       objectReference: {fileID: 0}
+    - target: {fileID: 8433434308467796234, guid: 575ad188c25fede4fa4c307d35cac117,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.1764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433434308467796234, guid: 575ad188c25fede4fa4c307d35cac117,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 575ad188c25fede4fa4c307d35cac117, type: 3}
 --- !u!1001 &211126363
@@ -326,7 +336,7 @@ GameObject:
   - component: {fileID: 445617716}
   - component: {fileID: 445617719}
   - component: {fileID: 445617718}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: level4
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CalculatePixels : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class CalculatePixels : MonoBehaviour
     private Texture2D texture2d;
 
     private int prevPixelCount;
-    private int pixelCount;
+    private static int pixelCount = 0;
     private float prevTime;
     private float time;
 
@@ -23,11 +24,13 @@ public class CalculatePixels : MonoBehaviour
     public float multiplier = 25f;
     public float constant = 0f;
 
-    public Vector3 origin;
+    public Vector3 origin; // Modified for each portal
 
     private float timer;
 
     public bool disableTimer = false;
+
+    private int sceneIndex;
 
     void Start()
     {
@@ -36,22 +39,20 @@ public class CalculatePixels : MonoBehaviour
         texture2d = TextureToTexture2D(fog.mainTexture);
 
         prevPixelCount = 0;
-        pixelCount = 0;
+        //pixelCount = 0;
         prevTime = 5.0f;
         time = prevTime;
 
-        pixelText = GameObject.Find("PixelText").GetComponent<Text>();
-        timerText = GameObject.Find("TimerText").GetComponent<Text>();
-
-        GameObject player = GameObject.Find("Player"); 
-        playerTransf = player.GetComponent<Transform>();
-        playerMoveScript = player.GetComponent<PlayerMovement>();
-        playerBody = player.GetComponent<Rigidbody2D>();
+        ResetScene();
 
         origin = playerTransf.position;
     }
 
     void Update() {
+        if (sceneIndex != SceneManager.GetActiveScene().buildIndex) {
+            ResetScene();
+        }
+
         // Spawn back in origin by holding 'R' button
         if (Input.GetKeyDown(KeyCode.R)) {
             timer = Time.time;
@@ -116,5 +117,17 @@ public class CalculatePixels : MonoBehaviour
         playerBody.velocity = Vector3.zero;
         yield return new WaitForSeconds(1f);
         playerMoveScript.enabled = true;
+    }
+
+    void ResetScene() {
+        pixelText = GameObject.Find("PixelText").GetComponent<Text>();
+        timerText = GameObject.Find("TimerText").GetComponent<Text>();
+
+        GameObject player = GameObject.Find("Player"); 
+        playerTransf = player.GetComponent<Transform>();
+        playerMoveScript = player.GetComponent<PlayerMovement>();
+        playerBody = player.GetComponent<Rigidbody2D>();
+
+        sceneIndex = SceneManager.GetActiveScene().buildIndex; 
     }
 }

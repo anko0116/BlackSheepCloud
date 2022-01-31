@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 438591478}
   - component: {fileID: 438591477}
   - component: {fileID: 438591476}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: level2-map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2973,6 +2973,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FogCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 6570006986096583167, guid: f33ae241445ea3743aedad37cfa7e4b3,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f33ae241445ea3743aedad37cfa7e4b3, type: 3}
 --- !u!1001 &899317700
@@ -3156,6 +3161,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 300393367515766662, guid: 1732ad8ca64a4ff4196f87feda820788,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 4096
+      objectReference: {fileID: 0}
     - target: {fileID: 300393367515766663, guid: 1732ad8ca64a4ff4196f87feda820788,
         type: 3}
       propertyPath: m_Name
@@ -3184,6 +3194,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingLayer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610570319845679656, guid: 02dad3ffcaf805248a7e20f9149d92e4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610570319938477843, guid: 02dad3ffcaf805248a7e20f9149d92e4,
+        type: 3}
+      propertyPath: jumpSpeed
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7610570319938477844, guid: 02dad3ffcaf805248a7e20f9149d92e4,
         type: 3}
@@ -3248,12 +3268,12 @@ PrefabInstance:
     - target: {fileID: 7610570319938477847, guid: 02dad3ffcaf805248a7e20f9149d92e4,
         type: 3}
       propertyPath: m_GravityScale
-      value: 0.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7610570319938477847, guid: 02dad3ffcaf805248a7e20f9149d92e4,
         type: 3}
       propertyPath: m_Mass
-      value: 1.25
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7610570319938477847, guid: 02dad3ffcaf805248a7e20f9149d92e4,
         type: 3}
@@ -3274,6 +3294,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610570320622750750, guid: 02dad3ffcaf805248a7e20f9149d92e4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02dad3ffcaf805248a7e20f9149d92e4, type: 3}

@@ -87,6 +87,7 @@ MonoBehaviour:
   multiplier: 300
   constant: 0
   origin: {x: 0, y: 0, z: 0}
+  disableTimer: 0
 --- !u!1 &6274853987402018178
 GameObject:
   m_ObjectHideFlags: 0
