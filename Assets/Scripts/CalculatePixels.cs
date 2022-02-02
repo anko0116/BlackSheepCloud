@@ -43,16 +43,12 @@ public class CalculatePixels : MonoBehaviour
         prevTime = 5.0f;
         time = prevTime;
 
-        ResetScene();
+        FindSceneObjects();
 
         origin = playerTransf.position;
     }
 
     void Update() {
-        if (sceneIndex != SceneManager.GetActiveScene().buildIndex) {
-            ResetScene();
-        }
-
         // Spawn back in origin by holding 'R' button
         if (Input.GetKeyDown(KeyCode.R)) {
             timer = Time.time;
@@ -119,7 +115,7 @@ public class CalculatePixels : MonoBehaviour
         playerMoveScript.enabled = true;
     }
 
-    void ResetScene() {
+    void FindSceneObjects() {
         pixelText = GameObject.Find("PixelText").GetComponent<Text>();
         timerText = GameObject.Find("TimerText").GetComponent<Text>();
 

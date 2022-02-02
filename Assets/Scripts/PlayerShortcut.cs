@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+Script attached to Player object
+that shoots out raycast from Player, where these
+raycasts will check for Shortcut objects.
+If Shortcut is detected, Shortcut's script variable is modified.
+*/
+
 public class PlayerShortcut : MonoBehaviour
 {
     private BoxCollider2D coll;

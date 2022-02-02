@@ -12,17 +12,17 @@ public class MapCheat : MonoBehaviour
     private static Texture2D prevTexture2d;
     private static Color[] pixels;
     private static RawImage prevFogImg;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
-    // Update is called once per frame
+    private static RenderTexture rendertexture;
+
     void Update()
     {
         if (setPixels) {
-            RawImage fog = GameObject.Find("Fog").GetComponent<RawImage>();
-            fog.texture = prevTexture2d;
+            // Works
+            // RawImage fog = GameObject.Find("Fog").GetComponent<RawImage>();
+            // fog.texture = prevTexture2d;
+
+            Graphics.Blit(prevTexture2d, rendertexture);
 
             // Texture2D texture2d = TextureToTexture2D(fog.texture);
             // texture2d.SetPixels(pixels);
@@ -48,6 +48,9 @@ public class MapCheat : MonoBehaviour
                 prevFogImg = GameObject.Find("Fog").GetComponent<RawImage>();
                 prevTexture = prevFogImg.mainTexture;
                 prevTexture2d = TextureToTexture2D(prevTexture);
+
+                rendertexture = Resources.Load<RenderTexture>("RenderTextures/Fog");
+
                 SceneManager.LoadScene(1);
             }
         }

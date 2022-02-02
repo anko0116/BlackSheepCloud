@@ -1,0 +1,3 @@
+Create MainManager: https://learn.unity.com/tutorial/implement-data-persistence-between-scenes
+
+Maintain hash table (key=scene index, value=RenderTexture, camera max and min X,Y positions)
