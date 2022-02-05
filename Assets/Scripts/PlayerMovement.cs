@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour {
     private LayerMask mask;
 
     private bool jumping;
+    private bool gliding;
 
     void Start() {
         body = GetComponent<Rigidbody2D>();
@@ -21,14 +22,19 @@ public class PlayerMovement : MonoBehaviour {
         mask = LayerMask.GetMask("Ground");
 
         jumping = false;
+        gliding = false;
     }
 
     void Update() {
-        if (_IsGrounded() && Input.GetKey(KeyCode.Space) && body.velocity.y == 0) {
-            jumping = true;
+        jumping = false;
+        gliding = false;
+        if (_IsGrounded()) {
+            if (Input.GetKey(KeyCode.Space) && body.velocity.y == 0) {
+                jumping = true;
+            }
         }
-        else {
-            jumping = false;
+        else if (Input.GetKey(KeyCode.Space) && body.velocity.y <= 0) {
+            gliding = true;
         }
     }
 
@@ -39,8 +45,12 @@ public class PlayerMovement : MonoBehaviour {
         // Jumping
         if (jumping) body.velocity = new Vector2(body.velocity.x, jumpSpeed);
         if (body.velocity.y < 0) {
+            float fallFactor = 0.4f;
+            if (gliding) {
+                fallFactor = 0.05f;
+            }
             // if falling down
-            body.velocity += Vector2.up * Physics2D.gravity.y * (0.4f - 1) * Time.deltaTime;
+            body.velocity += Vector2.up * Physics2D.gravity.y * (fallFactor - 1) * Time.deltaTime;
         }
         else if (body.velocity.y > 0) {
             // if jumping up
