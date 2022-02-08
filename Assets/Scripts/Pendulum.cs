@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+Attached to Player
+
+https://www.raywenderlich.com/348-make-a-2d-grappling-hook-game-in-unity-part-1
+*/
+
 public class Pendulum : MonoBehaviour
 {
     public Camera mainCamera;
@@ -13,8 +19,10 @@ public class Pendulum : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0)) {
-            Vector2 mousePos = (Vector2)mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            // Vector2 mousePos = (Vector2)mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos = gameObject.transform.position;
+            mousePos.y += 0.5f;
             // Create visual line from clicked mouse position to the Player object
             lineRenderer.SetPosition(0, mousePos);
             lineRenderer.SetPosition(1, gameObject.transform.position);
@@ -23,7 +31,7 @@ public class Pendulum : MonoBehaviour
             distanceJoint.connectedAnchor = mousePos; 
             distanceJoint.enabled = true;
         }
-        else if (Input.GetKeyUp(KeyCode.Mouse0)){
+        else if (Input.GetKeyUp(KeyCode.Space)){
             lineRenderer.enabled = false;
             distanceJoint.enabled = false;
         }

@@ -16,6 +16,10 @@ public class PlayerMovement : MonoBehaviour {
     private bool jumping;
     private bool gliding;
 
+    private SpriteRenderer spriteRend;
+    private Sprite parasolSprite;
+    private Sprite walkSprite;
+
     void Start() {
         body = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
@@ -23,17 +27,21 @@ public class PlayerMovement : MonoBehaviour {
 
         jumping = false;
         gliding = false;
+
+        parasolSprite = Resources.Load("character/parasol2", typeof(Sprite)) as Sprite;
+        walkSprite = Resources.Load("character/player2", typeof(Sprite)) as Sprite;
+        spriteRend = GetComponent<SpriteRenderer>();
     }
 
     void Update() {
         jumping = false;
         gliding = false;
         if (_IsGrounded()) {
-            if (Input.GetKey(KeyCode.Space) && body.velocity.y == 0) {
+            if (Input.GetKey(KeyCode.W) && body.velocity.y == 0) {
                 jumping = true;
             }
         }
-        else if (Input.GetKey(KeyCode.Space) && body.velocity.y <= 0) {
+        else if (Input.GetKey(KeyCode.W) && body.velocity.y <= 0) {
             gliding = true;
         }
     }
@@ -47,6 +55,7 @@ public class PlayerMovement : MonoBehaviour {
         if (body.velocity.y < 0) {
             float fallFactor = 0.4f;
             if (gliding) {
+                // Decrease falling factor
                 fallFactor = 0.05f;
             }
             // if falling down
@@ -55,6 +64,14 @@ public class PlayerMovement : MonoBehaviour {
         else if (body.velocity.y > 0) {
             // if jumping up
             body.velocity += Vector2.up * Physics2D.gravity.y * (0.4f - 1) * Time.deltaTime;   
+        }
+
+        if (gliding) {
+            // Change Player sprite to Parasol
+            spriteRend.sprite = parasolSprite;
+        }
+        else {
+            spriteRend.sprite = walkSprite;
         }
     }
 
