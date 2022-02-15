@@ -15,10 +15,16 @@ public class PlayerMovement : MonoBehaviour {
 
     private bool jumping;
     private bool gliding;
+    private bool swinging;
 
     private SpriteRenderer spriteRend;
     private Sprite parasolSprite;
     private Sprite walkSprite;
+    private Sprite swingSprite;
+
+    public Camera mainCamera;
+    public LineRenderer lineRenderer;
+    public DistanceJoint2D distanceJoint;
 
     void Start() {
         body = GetComponent<Rigidbody2D>();
@@ -27,16 +33,45 @@ public class PlayerMovement : MonoBehaviour {
 
         jumping = false;
         gliding = false;
+        swinging = false;
 
         parasolSprite = Resources.Load("character/parasol2", typeof(Sprite)) as Sprite;
         walkSprite = Resources.Load("character/player2", typeof(Sprite)) as Sprite;
+        swingSprite = Resources.Load("character/swing2", typeof(Sprite)) as Sprite;
         spriteRend = GetComponent<SpriteRenderer>();
+
+        distanceJoint.enabled = false;
     }
 
     void Update() {
         jumping = false;
         gliding = false;
-        if (_IsGrounded()) {
+        // swinging = false;
+
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            swinging = true;
+            // Vector2 mousePos = (Vector2)mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 endPos = gameObject.transform.position;
+            endPos.y += 0.3f;
+            // Create visual line from clicked mouse position to the Player object
+            lineRenderer.SetPosition(0, endPos);
+            lineRenderer.SetPosition(1, gameObject.transform.position);
+            //lineRenderer.enabled = true;
+            // Create physical joint from Player object to the mouse position
+            distanceJoint.connectedAnchor = endPos; 
+            distanceJoint.enabled = true;
+
+            // Change RigidBody2D to Static (turn off)
+            body.bodyType = RigidbodyType2D.Static;
+        }
+        else if (Input.GetKeyUp(KeyCode.Space)){
+            swinging = false;
+            lineRenderer.enabled = false;
+            distanceJoint.enabled = false;
+            // Change RigidBody2D to Dynamic
+            body.bodyType = RigidbodyType2D.Dynamic;
+        }
+        else if (_IsGrounded()) {
             if (Input.GetKey(KeyCode.W) && body.velocity.y == 0) {
                 jumping = true;
             }
@@ -44,34 +79,53 @@ public class PlayerMovement : MonoBehaviour {
         else if (Input.GetKey(KeyCode.W) && body.velocity.y <= 0) {
             gliding = true;
         }
+
+        if (swinging && Input.GetKey(KeyCode.D)) {
+            // Move swing right
+
+        }
+
+        ChangeSprite();
     }
 
     void FixedUpdate() {
-        // Walking 
+        // Walking
         body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.velocity.y);
 
         // Jumping
         if (jumping) body.velocity = new Vector2(body.velocity.x, jumpSpeed);
-        if (body.velocity.y < 0) {
+        if (!swinging && body.velocity.y < 0) {
             float fallFactor = 0.4f;
             if (gliding) {
                 // Decrease falling factor
-                fallFactor = 0.05f;
+                fallFactor = 0.03f;
             }
             // if falling down
             body.velocity += Vector2.up * Physics2D.gravity.y * (fallFactor - 1) * Time.deltaTime;
         }
-        else if (body.velocity.y > 0) {
+        else if (!swinging && body.velocity.y > 0) {
             // if jumping up
             body.velocity += Vector2.up * Physics2D.gravity.y * (0.4f - 1) * Time.deltaTime;   
         }
 
-        if (gliding) {
-            // Change Player sprite to Parasol
-            spriteRend.sprite = parasolSprite;
-        }
-        else {
-            spriteRend.sprite = walkSprite;
+        // When swinging, force Player down faster
+        if (swinging) {
+            // float midX = lineRenderer.GetPosition(0).x;
+            // if (transform.position.x > midX) {
+            //     Vector2 addVel = new Vector2(0, 0);
+            //     //addVel.y = (Physics2D.gravity.y * (2f - 1) * Time.deltaTime) / (-1 * body.velocity.y + 0.1f);
+            //     addVel.x = -0.2f * (transform.position.x - midX);
+            //     body.velocity += addVel;
+            // }
+            // else if (transform.position.x < midX) {
+            //     Vector2 addVel = new Vector2(0, 0);
+            //     //addVel.y = (Physics2D.gravity.y * (2f - 1) * Time.deltaTime) / (-1 * body.velocity.y + 0.1f);
+            //     addVel.x = 0.2f * (midX - transform.position.x);
+            //     body.velocity += addVel;
+            // }
+            // body.velocity += new Vector2(0,1);
+
+            transform.position += new Vector3(0,1,0) * Time.deltaTime;
         }
     }
 
@@ -89,6 +143,19 @@ public class PlayerMovement : MonoBehaviour {
         Debug.DrawRay(hit3Origin, Vector2.down * (coll.bounds.extents.y + extraHeight));
 
         return (hit1.collider != null || hit2.collider != null || hit3.collider != null);
+    }
+
+    private void ChangeSprite() {
+        // Change Sprite of Player
+        if (swinging) {
+            spriteRend.sprite = swingSprite;
+        }
+        else if (gliding) {
+            spriteRend.sprite = parasolSprite;
+        }
+        else {
+            spriteRend.sprite = walkSprite;
+        }
     }
 }
 
